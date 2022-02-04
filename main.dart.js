@@ -45720,9 +45720,9 @@ if(n===k+1||n===k-1)if(m===j+1||m===j-1)return null
 if(n===k+2||n===k-2)q=(m===j+2||m===j-2)&&!0
 else q=!1
 p=$.d0
-if(p===1)if(r===1){l[s]=-1
+if(p===1&&q)if(r===1){l[s]=-1
 o=!0}else o=!1
-else if(p===3)if(r===0){l[s]=-1
+else if(p===3)if(r===0&&q){l[s]=-1
 o=!0}else o=!1
 else o=!1
 return o&&q},

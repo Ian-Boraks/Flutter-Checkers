@@ -115,13 +115,13 @@ class GameBoard extends StatelessWidget {
       }
     }
 
-    if (_textListIndex == 1) {
+    if (_textListIndex == 1 && openPos) {
       if (diagonalSpacePiece == 1) {
         diagEnemy = true;
         currentBoard[diagonalSpace[0]][diagonalSpace[1]] = -1;
       }
     } else if (_textListIndex == 3) {
-      if (diagonalSpacePiece == 0) {
+      if (diagonalSpacePiece == 0 && openPos) {
         diagEnemy = true;
         currentBoard[diagonalSpace[0]][diagonalSpace[1]] = -1;
       }
