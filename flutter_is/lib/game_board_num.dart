@@ -6,12 +6,6 @@ class GameBoard extends StatelessWidget {
     'Red - Select an empty space to move to',
     'Blue - Select a piece to move',
     'Blue - Select an empty space to move to',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
   ];
   static int _textListIndex = 0;
 
@@ -67,10 +61,7 @@ class GameBoard extends StatelessWidget {
 
   _directionOfMovValid(selectedSpace) {
     final newy = selectedSpace[0];
-    final newx = selectedSpace[1];
-
     final oldy = pastPiecePos[0];
-    final oldx = pastPiecePos[1];
 
     if (_textListIndex == 1) {
       if (newy - oldy < 0) {

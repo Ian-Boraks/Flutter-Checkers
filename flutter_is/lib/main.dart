@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'game_board.dart';
+import 'game_board_num.dart' as gb_num;
+// import 'game_board_enum.dart' as gb_enum;
 
 void main() => runApp(MyApp());
 
@@ -19,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: GameBoard(),
+        body: gb_num.GameBoard(),
       ),
     );
   }
