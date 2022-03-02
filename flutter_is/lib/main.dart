@@ -92,60 +92,201 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        ListItemWidget(
-                          icon: Icons.code_outlined,
-                          size: 200,
-                          text: "Code",
-                          color: Colors.red,
-                          onPressed: () {
-                            print("Code");
-                          },
-                        ),
-                        ListItemWidget(
-                          icon: Icons.photo_camera_outlined,
-                          size: 200,
-                          text: "Photo",
-                          color: Colors.blue,
-                          onPressed: () {
-                            print("Photo");
-                          },
-                        ),
-                        ListItemWidget(
-                          icon: Icons.threed_rotation_outlined,
-                          size: 200,
-                          text: "CAD",
-                          color: Colors.cyan,
-                          onPressed: () {
-                            print("CAD");
-                          },
-                        ),
-                      ],
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey,
+            bottom: const TabBar(
+              labelColor: Colors.black,
+              labelStyle: TextStyle(
+                fontSize: 23,
+              ),
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.code_outlined,
+                    color: Colors.red,
+                  ),
+                  text: "Code",
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.photo_camera_outlined,
+                    color: Colors.blue,
+                  ),
+                  text: "Photography",
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.threed_rotation_outlined,
+                    color: Colors.cyan,
+                  ),
+                  text: "CAD",
+                ),
+              ],
+            ),
+            centerTitle: true,
+            title: const Text(
+              'Ian Borak\'s Electronic Portfolio',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          ListItemWidget(
+                            icon: Icons.code_outlined,
+                            size: 100,
+                            text: "Code",
+                            color: Colors.red,
+                            onPressed: () {
+                              print("Code");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.photo_camera_outlined,
+                            color: Colors.blue,
+                            size: 100,
+                            text: "Photo",
+                            onPressed: () {
+                              print("Photo");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.threed_rotation_outlined,
+                            color: Colors.cyan,
+                            size: 100,
+                            text: "CAD",
+                            onPressed: () {
+                              print("CAD");
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    flex: 8,
+                    child: Container(color: Color(0xFFFF301B)), // Bruh why is hex with the A value in the front :(
+                  ),
+                ],
               ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Container(color: Color(0xFF9370DB)), // Bruh why is hex with the A value in the front :(
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          ListItemWidget(
+                            icon: Icons.code_outlined,
+                            size: 100,
+                            text: "Code",
+                            color: Colors.red,
+                            onPressed: () {
+                              print("Code");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.photo_camera_outlined,
+                            color: Colors.blue,
+                            size: 100,
+                            text: "Photo",
+                            onPressed: () {
+                              print("Photo");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.threed_rotation_outlined,
+                            color: Colors.cyan,
+                            size: 100,
+                            text: "CAD",
+                            onPressed: () {
+                              print("CAD");
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: Container(color: Color(0xFF9370DB)), // Bruh why is hex with the A value in the front :(
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          ListItemWidget(
+                            icon: Icons.code_outlined,
+                            size: 100,
+                            text: "Code",
+                            color: Colors.red,
+                            onPressed: () {
+                              print("Code");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.photo_camera_outlined,
+                            color: Colors.blue,
+                            size: 100,
+                            text: "Photo",
+                            onPressed: () {
+                              print("Photo");
+                            },
+                          ),
+                          ListItemWidget(
+                            icon: Icons.threed_rotation_outlined,
+                            color: Colors.cyan,
+                            size: 100,
+                            text: "CAD",
+                            onPressed: () {
+                              print("CAD");
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: Container(color: Color(0xFFF470DB)), // Bruh why is hex with the A value in the front :(
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
