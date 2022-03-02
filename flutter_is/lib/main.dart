@@ -11,24 +11,78 @@ class MyApp extends StatefulWidget {
   }
 }
 
-class VerticallyScrollingItem extends StatelessWidget {
-  const VerticallyScrollingItem({
+class ListItemWidget extends StatelessWidget {
+  const ListItemWidget({
     Key? key,
-    this.fontSize = 30,
-    @required this.mainText,
+    this.alignment = Alignment.center,
+    this.size,
+    this.height,
+    this.icon,
+    required this.onPressed,
+    required this.color,
+    required this.text,
   }) : super(key: key);
 
-  final mainText;
-  final fontSize;
+  final Alignment alignment;
+  final String text;
+  final double? height;
+  final double? size;
+  final Color color;
+  final IconData? icon;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5),
-      child: Text(
-        mainText,
-        style: TextStyle(fontSize: fontSize),
-        textAlign: TextAlign.center,
+      margin: const EdgeInsets.all(20),
+      alignment: alignment,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FittedBox(
+            child: ElevatedButton(
+              child: Icon(
+                icon ?? Icons.favorite,
+                color: color,
+                semanticLabel: text,
+                size: (size ?? 0) > (height ?? 0) ? (height ?? size) : (size ?? height),
+              ),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+              ),
+              onPressed: () {
+                onPressed();
+              },
+            ),
+          ),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            clipBehavior: Clip.hardEdge,
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 23,
+                      color: color,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  // ignore: todo
+                  // TODO: Add Click Icon with SVG
+                  // Icon(
+                  //   IconData(0xf05b5, fontFamily: 'MaterialIcons'),
+                  // )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -40,21 +94,49 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         body: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
               flex: 2,
               child: Container(
-                color: Colors.white70,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      for (var i = 0; i <= 100; i++)
-                        VerticallyScrollingItem(
-                          mainText: "help " + i.toString(),
-                        )
-                    ],
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        ListItemWidget(
+                          icon: Icons.code_outlined,
+                          size: 200,
+                          text: "Code",
+                          color: Colors.red,
+                          onPressed: () {
+                            print("Code");
+                          },
+                        ),
+                        ListItemWidget(
+                          icon: Icons.photo_camera_outlined,
+                          size: 200,
+                          text: "Photo",
+                          color: Colors.blue,
+                          onPressed: () {
+                            print("Photo");
+                          },
+                        ),
+                        ListItemWidget(
+                          icon: Icons.threed_rotation_outlined,
+                          size: 200,
+                          text: "CAD",
+                          color: Colors.cyan,
+                          onPressed: () {
+                            print("CAD");
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
