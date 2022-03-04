@@ -1,20 +1,55 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:html';
+import 'dart:js' as js;
 
-import 'package:flutter/material.dart';
-import 'package:vertical_tab_bar_view/vertical_tab_bar_view.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:web_browser/web_browser.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-enum codeProjects { attractions, museumRunner, empty, redK, blueK }
+enum codeProjects { attractions, museumRunner, empty, portfolio, blueK }
 enum cadProjects { btSpeaker }
 
 class MyApp extends StatefulWidget {
+  static var selectedCodeProject = codeProjects.empty;
   @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class NewTabButton extends StatelessWidget {
+  const NewTabButton({
+    Key? key,
+    this.alignment = Alignment.center,
+    this.height,
+    this.color = Colors.cyan,
+    required this.child,
+    required this.url,
+  }) : super(key: key);
+
+  final Widget child;
+  final Alignment alignment;
+  final double? height;
+  final String url;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+        ),
+        child: child,
+        onPressed: () {
+          js.context.callMethod('open', [
+            url
+          ]);
+        },
+      ),
+    );
   }
 }
 
@@ -97,37 +132,79 @@ class ListItemWidget extends StatelessWidget {
   }
 }
 
-class _MyAppState extends State<MyApp> {
-  var selectedCodeProject = codeProjects.empty;
+class NewProjectExpanded extends StatelessWidget {
+  const NewProjectExpanded({
+    Key? key,
+    this.bottomBarChild,
+    this.color = Colors.cyan,
+    required this.url,
+  }) : super(key: key);
 
-  Widget GetSelectedCodeProject() {
-    switch (selectedCodeProject) {
-      case codeProjects.attractions:
-        return Expanded(
-          flex: 8,
-          child: Container(
-            alignment: Alignment.center,
-            child: Html(
-              // FIXME: Make this full screen , make a post on stackoverflow
-              // shrinkWrap: true,
-              data: r"""
-                  <iframe src="https://www.ianboraks.info/2022TSA-VidGame/"></iframe>
-                """,
+  final Widget? bottomBarChild;
+  final String url;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 8,
+      child: Container(
+        color: Colors.white,
+        margin: EdgeInsets.only(right: 10),
+        child: WebBrowser(
+          initialUrl: url,
+          javascriptEnabled: true,
+          interactionSettings: WebBrowserInteractionSettings(
+            topBar: NewTabButton(
+              url: url,
+              child: Text("OPEN in New Tab"),
+              color: color,
+            ),
+            bottomBar: Container(
+              margin: EdgeInsets.all(10),
+              child: bottomBarChild,
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  void _resetTabs() {
+    _changeStateCodeProject(codeProjects.empty);
+  }
+
+  _changeStateCodeProject(scp) {
+    setState(() {
+      MyApp.selectedCodeProject = scp;
+    });
+  }
+
+  Widget _getSelectedCodeProject(scp) {
+    switch (scp) {
+      case codeProjects.museumRunner:
+        return NewProjectExpanded(
+          url: 'https://ian-boraks.github.io/2022TSA-VidGame',
+          color: Colors.red,
         );
 
-      case codeProjects.museumRunner:
-        return Expanded(
-          flex: 8,
-          child: Text("museumRunner"),
+      case codeProjects.attractions:
+        return NewProjectExpanded(
+          bottomBarChild: Text("This application requires geo-location. Because of that, the best way to view the app is opening it in a new tab."),
+          url: 'https://ian-boraks.github.io/FBLA-2021-22--Coding-Programming/',
+          color: Colors.blue,
+        );
+
+      case codeProjects.portfolio:
+        return NewProjectExpanded(
+          url: '/',
+          color: Colors.cyan,
         );
 
       default:
-        return Expanded(
-          flex: 8,
-          child: Text("NULL"),
-        );
+        return Expanded(flex: 8, child: Container());
     }
   }
 
@@ -136,201 +213,215 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.grey,
-            bottom: const TabBar(
-              labelColor: Colors.black,
-              labelStyle: TextStyle(
-                fontSize: 23,
-              ),
-              tabs: [
-                Tab(
-                  icon: Icon(
-                    Icons.code_outlined,
-                    color: Colors.red,
+        child: Builder(
+          builder: (context) {
+            final tabController = DefaultTabController.of(context)!;
+            tabController.addListener(() {
+              _resetTabs();
+            });
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.grey,
+                bottom: TabBar(
+                  labelColor: Colors.black,
+                  labelStyle: TextStyle(
+                    fontSize: 23,
                   ),
-                  text: "Code",
-                ),
-                Tab(
-                  icon: Icon(
-                    Icons.photo_camera_outlined,
-                    color: Colors.blue,
-                  ),
-                  text: "Photography",
-                ),
-                Tab(
-                  icon: Icon(
-                    Icons.threed_rotation_outlined,
-                    color: Colors.cyan,
-                  ),
-                  text: "CAD",
-                ),
-              ],
-            ),
-            centerTitle: true,
-            title: const Text(
-              'Ian Borak\'s Electronic Portfolio',
-              textAlign: TextAlign.center,
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          ListItemWidget(
-                            icon: Icons.videogame_asset,
-                            size: 100,
-                            text: "Museum\nRunner",
-                            color: Colors.red,
-                            selected: selectedCodeProject == codeProjects.museumRunner,
-                            onPressed: () {
-                              selectedCodeProject = codeProjects.museumRunner;
-                              (context as Element).markNeedsBuild();
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.map,
-                            color: Colors.blue,
-                            size: 100,
-                            text: "Attractions.cc",
-                            selected: selectedCodeProject == codeProjects.attractions,
-                            onPressed: () {
-                              selectedCodeProject = codeProjects.attractions;
-                              print("Photo");
-                              (context as Element).markNeedsBuild();
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.threed_rotation_outlined,
-                            color: Colors.cyan,
-                            size: 100,
-                            text: "CAD",
-                            onPressed: () {
-                              print("CAD");
-                            },
-                          ),
-                        ],
+                  tabs: [
+                    Tab(
+                      icon: Icon(
+                        Icons.code_outlined,
+                        color: Colors.red,
                       ),
+                      text: "Code",
                     ),
+                    Tab(
+                      icon: Icon(
+                        Icons.photo_camera_outlined,
+                        color: Colors.blue,
+                      ),
+                      text: "Photography",
+                    ),
+                    Tab(
+                      icon: Icon(
+                        Icons.threed_rotation_outlined,
+                        color: Colors.cyan,
+                      ),
+                      text: "CAD",
+                    ),
+                  ],
+                ),
+                centerTitle: true,
+                title: const Text(
+                  'Ian Borak\'s Electronic Portfolio',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              body: TabBarView(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            children: [
+                              ListItemWidget(
+                                icon: Icons.videogame_asset,
+                                size: 100,
+                                text: "TSA\nMuseum\nRunner",
+                                color: Colors.red,
+                                selected: MyApp.selectedCodeProject == codeProjects.museumRunner,
+                                onPressed: () {
+                                  _changeStateCodeProject(codeProjects.empty);
+                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                    _changeStateCodeProject(codeProjects.museumRunner);
+                                  });
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.map,
+                                color: Colors.blue,
+                                size: 100,
+                                text: "FBLA\nAttractions.cc",
+                                selected: MyApp.selectedCodeProject == codeProjects.attractions,
+                                onPressed: () {
+                                  _changeStateCodeProject(codeProjects.empty);
+                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                    _changeStateCodeProject(codeProjects.attractions);
+                                  });
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.auto_stories_outlined,
+                                color: Colors.cyan,
+                                size: 100,
+                                text: "Portfolio",
+                                onPressed: () {
+                                  _changeStateCodeProject(codeProjects.empty);
+                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                    _changeStateCodeProject(codeProjects.portfolio);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      _getSelectedCodeProject(MyApp.selectedCodeProject),
+                    ],
                   ),
-                  GetSelectedCodeProject(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            children: [
+                              ListItemWidget(
+                                icon: Icons.code_outlined,
+                                size: 100,
+                                text: "Code",
+                                color: Colors.red,
+                                onPressed: () {
+                                  print("Code");
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.photo_camera_outlined,
+                                color: Colors.blue,
+                                size: 100,
+                                text: "Photo",
+                                onPressed: () {
+                                  print("Photo");
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.threed_rotation_outlined,
+                                color: Colors.cyan,
+                                size: 100,
+                                text: "CAD",
+                                onPressed: () {
+                                  print("CAD");
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Container(color: Color(0xFF9370DB)), // Bruh why is hex with the A value in the front :(
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            children: [
+                              ListItemWidget(
+                                icon: Icons.code_outlined,
+                                size: 100,
+                                text: "Code",
+                                color: Colors.red,
+                                onPressed: () {
+                                  print("Code");
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.photo_camera_outlined,
+                                color: Colors.blue,
+                                size: 100,
+                                text: "Photo",
+                                onPressed: () {
+                                  print("Photo");
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.threed_rotation_outlined,
+                                color: Colors.cyan,
+                                size: 100,
+                                text: "CAD",
+                                onPressed: () {
+                                  print("CAD");
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Container(color: Color(0xFFF470DB)), // Bruh why is hex with the A value in the front :(
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          ListItemWidget(
-                            icon: Icons.code_outlined,
-                            size: 100,
-                            text: "Code",
-                            color: Colors.red,
-                            onPressed: () {
-                              print("Code");
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.photo_camera_outlined,
-                            color: Colors.blue,
-                            size: 100,
-                            text: "Photo",
-                            onPressed: () {
-                              print("Photo");
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.threed_rotation_outlined,
-                            color: Colors.cyan,
-                            size: 100,
-                            text: "CAD",
-                            onPressed: () {
-                              print("CAD");
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Container(color: Color(0xFF9370DB)), // Bruh why is hex with the A value in the front :(
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          ListItemWidget(
-                            icon: Icons.code_outlined,
-                            size: 100,
-                            text: "Code",
-                            color: Colors.red,
-                            onPressed: () {
-                              print("Code");
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.photo_camera_outlined,
-                            color: Colors.blue,
-                            size: 100,
-                            text: "Photo",
-                            onPressed: () {
-                              print("Photo");
-                            },
-                          ),
-                          ListItemWidget(
-                            icon: Icons.threed_rotation_outlined,
-                            color: Colors.cyan,
-                            size: 100,
-                            text: "CAD",
-                            onPressed: () {
-                              print("CAD");
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Container(color: Color(0xFFF470DB)), // Bruh why is hex with the A value in the front :(
-                  ),
-                ],
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
