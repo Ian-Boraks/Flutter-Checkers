@@ -3,19 +3,18 @@
 import 'package:flutter/material.dart';
 
 import 'game_board_num.dart' as gb_num;
-// import 'game_board_enum.dart' as gb_enum;
 
-void main() => runApp(MyApp());
+void main() => runApp(MyCheckers());
 
-class MyApp extends StatefulWidget {
+class MyCheckers extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _MyAppState();
+    return _MyCheckersState();
   }
 }
 
 // LEADING _ makes it a private class
-class _MyAppState extends State<MyApp> {
+class _MyCheckersState extends State<MyCheckers> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

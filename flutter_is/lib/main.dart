@@ -3,13 +3,15 @@
 import 'dart:html';
 import 'dart:js' as js;
 
+import 'checkers/main.dart';
+
 import 'package:flutter_html/flutter_html.dart';
 import 'package:web_browser/web_browser.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-enum codeProjects { attractions, museumRunner, empty, portfolio, blueK }
+enum codeProjects { attractions, museumRunner, empty, portfolio, checkers }
 enum cadProjects { btSpeaker }
 
 class MyApp extends StatefulWidget {
@@ -203,6 +205,9 @@ class _MyAppState extends State<MyApp> {
           color: Colors.cyan,
         );
 
+      case codeProjects.checkers:
+        return Expanded(flex: 8, child: MyCheckers());
+
       default:
         return Expanded(flex: 8, child: Container());
     }
@@ -308,6 +313,18 @@ class _MyAppState extends State<MyApp> {
                                   _changeStateCodeProject(codeProjects.empty);
                                   Future.delayed(const Duration(milliseconds: 100), () {
                                     _changeStateCodeProject(codeProjects.portfolio);
+                                  });
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.grid_view,
+                                color: Colors.purple,
+                                size: 100,
+                                text: "Flutter\nCheckers",
+                                onPressed: () {
+                                  _changeStateCodeProject(codeProjects.empty);
+                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                    _changeStateCodeProject(codeProjects.checkers);
                                   });
                                 },
                               ),

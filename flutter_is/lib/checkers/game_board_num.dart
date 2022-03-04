@@ -133,7 +133,7 @@ class GameBoard extends StatelessWidget {
       return;
     }
 
-    print("X: $x, Y: $y, Empty: $empty");
+    // print("X: $x, Y: $y, Empty: $empty");
 
     if (selectedPiece == 0 && _textListIndex == 0) {
       _textListIndex = 1;
@@ -194,7 +194,7 @@ class GameBoard extends StatelessWidget {
         currentBoard[pastPiecePos[0]][pastPiecePos[1]] = -1;
       }
     }
-    print(pastPiecePos);
+    // print(pastPiecePos);
   }
 
   @override
