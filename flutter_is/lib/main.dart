@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-enum codeProjects { empty, attractions, museumRunner, portfolio, checkers }
+enum codeProjects { empty, phaseShift, attractions, museumRunner, portfolio, checkers }
 enum cadProjects { empty, btSpeaker }
 enum photoSort { all, astro, city, nature, landscape, animals, misc }
 
@@ -226,6 +226,8 @@ class _MyAppState extends State<MyApp> {
       case codeProjects.checkers:
         // FIXME: Make this size responsive so that I don't overflow
         return Expanded(flex: 8, child: MyCheckers());
+      case codeProjects.phaseShift:
+        return Expanded(flex: 8, child: Container(color: Colors.transparent));
 
       default:
         return Expanded(flex: 8, child: Container(color: Color(0xFF937FDB)));
@@ -303,8 +305,8 @@ class _MyAppState extends State<MyApp> {
                                 color: Colors.red,
                                 selected: MyApp.selectedCodeProject == codeProjects.museumRunner,
                                 onPressed: () {
-                                  _changeStateCodeProject(codeProjects.empty);
-                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                  _changeStateCodeProject(codeProjects.phaseShift);
+                                  Future.delayed(const Duration(milliseconds: 50), () {
                                     _changeStateCodeProject(codeProjects.museumRunner);
                                   });
                                 },
@@ -316,8 +318,8 @@ class _MyAppState extends State<MyApp> {
                                 text: "FBLA\nAttractions.cc",
                                 selected: MyApp.selectedCodeProject == codeProjects.attractions,
                                 onPressed: () {
-                                  _changeStateCodeProject(codeProjects.empty);
-                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                  _changeStateCodeProject(codeProjects.phaseShift);
+                                  Future.delayed(const Duration(milliseconds: 50), () {
                                     _changeStateCodeProject(codeProjects.attractions);
                                   });
                                 },
@@ -328,8 +330,8 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "Portfolio",
                                 onPressed: () {
-                                  _changeStateCodeProject(codeProjects.empty);
-                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                  _changeStateCodeProject(codeProjects.phaseShift);
+                                  Future.delayed(const Duration(milliseconds: 50), () {
                                     _changeStateCodeProject(codeProjects.portfolio);
                                   });
                                 },
@@ -340,8 +342,8 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "Flutter\nCheckers",
                                 onPressed: () {
-                                  _changeStateCodeProject(codeProjects.empty);
-                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                  _changeStateCodeProject(codeProjects.phaseShift);
+                                  Future.delayed(const Duration(milliseconds: 50), () {
                                     _changeStateCodeProject(codeProjects.checkers);
                                   });
                                 },
