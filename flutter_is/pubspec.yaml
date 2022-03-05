@@ -74,3 +74,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - images/photography/astro/
+    - images/photography/city/
+    - images/photography/msc/
+    - images/photography/nature/
+    - images/photography/sky_landscape/
+    - images/photography/wildlife/

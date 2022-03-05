@@ -11,11 +11,15 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-enum codeProjects { attractions, museumRunner, empty, portfolio, checkers }
-enum cadProjects { btSpeaker }
+enum codeProjects { empty, attractions, museumRunner, portfolio, checkers }
+enum cadProjects { empty, btSpeaker }
+enum photoSort { all, astro, city, nature, landscape, animals, misc }
 
 class MyApp extends StatefulWidget {
   static var selectedCodeProject = codeProjects.empty;
+  static var selectedCadProject = cadProjects.empty;
+  static var selectedPhotoSort = photoSort.all;
+
   @override
   State<StatefulWidget> createState() => _MyAppState();
 }
@@ -39,7 +43,7 @@ class NewTabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 10, bottom: 10),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(color),
@@ -98,6 +102,15 @@ class ListItemWidget extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.all<Color>(selected ? Colors.black12 : Colors.transparent),
                 overlayColor: MaterialStateProperty.all<Color>(selected ? Colors.transparent : Colors.black12),
                 shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: Colors.transparent,
+                      width: 2.0,
+                    ),
+                  ),
+                ),
               ),
               onPressed: () {
                 onPressed();
@@ -151,7 +164,6 @@ class NewProjectExpanded extends StatelessWidget {
     return Expanded(
       flex: 8,
       child: Container(
-        color: Colors.white,
         margin: EdgeInsets.only(right: 10),
         child: WebBrowser(
           initialUrl: url,
@@ -184,6 +196,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  _changePhotoSort(ps) {
+    setState(() {
+      MyApp.selectedPhotoSort = ps;
+    });
+  }
+
   Widget _getSelectedCodeProject(scp) {
     switch (scp) {
       case codeProjects.museumRunner:
@@ -206,16 +224,18 @@ class _MyAppState extends State<MyApp> {
         );
 
       case codeProjects.checkers:
+        // FIXME: Make this size responsive so that I don't overflow
         return Expanded(flex: 8, child: MyCheckers());
 
       default:
-        return Expanded(flex: 8, child: Container());
+        return Expanded(flex: 8, child: Container(color: Color(0xFF937FDB)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       home: DefaultTabController(
         length: 3,
         child: Builder(
@@ -226,10 +246,7 @@ class _MyAppState extends State<MyApp> {
             });
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.grey,
                 bottom: TabBar(
-                  labelColor: Colors.black,
                   labelStyle: TextStyle(
                     fontSize: 23,
                   ),
@@ -265,6 +282,7 @@ class _MyAppState extends State<MyApp> {
               ),
               body: TabBarView(
                 children: [
+                  // CODE
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -335,6 +353,7 @@ class _MyAppState extends State<MyApp> {
                       _getSelectedCodeProject(MyApp.selectedCodeProject),
                     ],
                   ),
+                  // Photography
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -349,30 +368,73 @@ class _MyAppState extends State<MyApp> {
                             physics: const BouncingScrollPhysics(),
                             children: [
                               ListItemWidget(
-                                icon: Icons.code_outlined,
+                                icon: Icons.collections,
+                                selected: MyApp.selectedPhotoSort == photoSort.all,
                                 size: 100,
-                                text: "Code",
+                                text: "All",
+                                color: Colors.orange,
+                                onPressed: () {
+                                  _changePhotoSort(photoSort.all);
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.auto_awesome,
+                                selected: MyApp.selectedPhotoSort == photoSort.astro,
+                                size: 100,
+                                text: "Astro",
                                 color: Colors.red,
                                 onPressed: () {
-                                  print("Code");
+                                  _changePhotoSort(photoSort.astro);
                                 },
                               ),
                               ListItemWidget(
-                                icon: Icons.photo_camera_outlined,
+                                icon: Icons.location_city,
+                                selected: MyApp.selectedPhotoSort == photoSort.city,
                                 color: Colors.blue,
                                 size: 100,
-                                text: "Photo",
+                                text: "City",
                                 onPressed: () {
-                                  print("Photo");
+                                  _changePhotoSort(photoSort.city);
                                 },
                               ),
                               ListItemWidget(
-                                icon: Icons.threed_rotation_outlined,
+                                icon: Icons.park,
+                                selected: MyApp.selectedPhotoSort == photoSort.nature,
                                 color: Colors.cyan,
                                 size: 100,
-                                text: "CAD",
+                                text: "Nature",
                                 onPressed: () {
-                                  print("CAD");
+                                  _changePhotoSort(photoSort.nature);
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.landscape,
+                                selected: MyApp.selectedPhotoSort == photoSort.landscape,
+                                color: Colors.purple,
+                                size: 100,
+                                text: "Landscape",
+                                onPressed: () {
+                                  _changePhotoSort(photoSort.landscape);
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.emoji_nature,
+                                selected: MyApp.selectedPhotoSort == photoSort.animals,
+                                color: Colors.green,
+                                size: 100,
+                                text: "Animals",
+                                onPressed: () {
+                                  _changePhotoSort(photoSort.animals);
+                                },
+                              ),
+                              ListItemWidget(
+                                icon: Icons.miscellaneous_services,
+                                selected: MyApp.selectedPhotoSort == photoSort.misc,
+                                color: Colors.grey,
+                                size: 100,
+                                text: "Misc",
+                                onPressed: () {
+                                  _changePhotoSort(photoSort.misc);
                                 },
                               ),
                             ],
@@ -381,10 +443,11 @@ class _MyAppState extends State<MyApp> {
                       ),
                       Expanded(
                         flex: 8,
-                        child: Container(color: Color(0xFF9370DB)), // Bruh why is hex with the A value in the front :(
+                        child: Container(color: Color(0xFF03fcb1)),
                       ),
                     ],
                   ),
+                  // CAD
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
