@@ -2,6 +2,7 @@
 
 import 'dart:html';
 import 'dart:js' as js;
+import 'dart:math';
 
 import 'checkers/main.dart';
 
@@ -11,9 +12,25 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+List shuffle(List items) {
+  var random = Random();
+
+  // Go through all elements.
+  for (var i = items.length - 1; i > 0; i--) {
+    // Pick a pseudorandom number according to the list length
+    var n = random.nextInt(i + 1);
+
+    var temp = items[i];
+    items[i] = items[n];
+    items[n] = temp;
+  }
+
+  return items;
+}
+
 enum codeProjects { empty, phaseShift, attractions, museumRunner, portfolio, checkers }
 enum cadProjects { empty, btSpeaker }
-enum photoSort { all, astro, city, nature, landscape, animals, misc }
+enum photoSort { all, astro, city, nature, landscape, wildlife, misc }
 
 class MyApp extends StatefulWidget {
   static var selectedCodeProject = codeProjects.empty;
@@ -196,10 +213,81 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  _changePhotoSort(ps) {
+  _changeSelectedPhotoSort(sp) {
     setState(() {
-      MyApp.selectedPhotoSort = ps;
+      MyApp.selectedPhotoSort = sp;
     });
+  }
+
+  List<Widget> _getSelectedPhotos(sp) {
+    // FIXME: Make it so the photos are always loaded on this tab and just sort instead of reloading each time
+    // Add these to multiple lists before the creation the main and then in here append the photos to the main list
+    // TODO: Dynamically load the photos from images/photogrpahy instead of using the hardcoded list made with the py file
+    List<Widget> photos = [];
+    switch (sp) {
+      case photoSort.astro:
+        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0013.jpg'));
+        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0014.jpg'));
+        photos.add(Image.asset('images/photography/astro/Stack2.jpg'));
+        photos.add(Image.asset('images/photography/astro/staroutput.final1.jpg'));
+        photos.add(Image.asset('images/photography/astro/staroutput.final2.jpg'));
+        break;
+      case photoSort.city:
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0006.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0007.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0008.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0009.jpg'));
+        break;
+      case photoSort.nature:
+        photos.add(Image.asset('images/photography/nature/DSC00020.jpg'));
+        photos.add(Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'));
+        photos.add(Image.asset('images/photography/nature/ianb.jpg'));
+        break;
+      case photoSort.landscape:
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0001.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0002.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0012.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0021.jpg'));
+        break;
+      case photoSort.wildlife:
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0003.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0004.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0005.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0010.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0018.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0019.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'));
+        break;
+      case photoSort.misc:
+        break;
+      default:
+        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0013.jpg'));
+        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0014.jpg'));
+        photos.add(Image.asset('images/photography/astro/Stack2.jpg'));
+        photos.add(Image.asset('images/photography/astro/staroutput.final1.jpg'));
+        photos.add(Image.asset('images/photography/astro/staroutput.final2.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0006.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0007.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0008.jpg'));
+        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0009.jpg'));
+        photos.add(Image.asset('images/photography/nature/DSC00020.jpg'));
+        photos.add(Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'));
+        photos.add(Image.asset('images/photography/nature/ianb.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0001.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0002.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0012.jpg'));
+        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0021.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0003.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0004.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0005.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0010.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0018.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0019.jpg'));
+        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'));
+    }
+
+    shuffle(photos);
+    return photos;
   }
 
   Widget _getSelectedCodeProject(scp) {
@@ -376,7 +464,7 @@ class _MyAppState extends State<MyApp> {
                                 text: "All",
                                 color: Colors.orange,
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.all);
+                                  _changeSelectedPhotoSort(photoSort.all);
                                 },
                               ),
                               ListItemWidget(
@@ -386,7 +474,7 @@ class _MyAppState extends State<MyApp> {
                                 text: "Astro",
                                 color: Colors.red,
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.astro);
+                                  _changeSelectedPhotoSort(photoSort.astro);
                                 },
                               ),
                               ListItemWidget(
@@ -396,7 +484,7 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "City",
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.city);
+                                  _changeSelectedPhotoSort(photoSort.city);
                                 },
                               ),
                               ListItemWidget(
@@ -406,7 +494,7 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "Nature",
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.nature);
+                                  _changeSelectedPhotoSort(photoSort.nature);
                                 },
                               ),
                               ListItemWidget(
@@ -416,17 +504,17 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "Landscape",
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.landscape);
+                                  _changeSelectedPhotoSort(photoSort.landscape);
                                 },
                               ),
                               ListItemWidget(
                                 icon: Icons.emoji_nature,
-                                selected: MyApp.selectedPhotoSort == photoSort.animals,
+                                selected: MyApp.selectedPhotoSort == photoSort.wildlife,
                                 color: Colors.green,
                                 size: 100,
-                                text: "Animals",
+                                text: "Wildlife",
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.animals);
+                                  _changeSelectedPhotoSort(photoSort.wildlife);
                                 },
                               ),
                               ListItemWidget(
@@ -436,7 +524,7 @@ class _MyAppState extends State<MyApp> {
                                 size: 100,
                                 text: "Misc",
                                 onPressed: () {
-                                  _changePhotoSort(photoSort.misc);
+                                  _changeSelectedPhotoSort(photoSort.misc);
                                 },
                               ),
                             ],
@@ -445,7 +533,20 @@ class _MyAppState extends State<MyApp> {
                       ),
                       Expanded(
                         flex: 8,
-                        child: Container(color: Color(0xFF03fcb1)),
+                        child: CustomScrollView(
+                          primary: false,
+                          slivers: <Widget>[
+                            SliverPadding(
+                              padding: const EdgeInsets.all(3.0),
+                              sliver: SliverGrid.count(
+                                mainAxisSpacing: 1, //horizontal space
+                                crossAxisSpacing: 1, //vertical space
+                                crossAxisCount: 3, //number of images for a row
+                                children: _getSelectedPhotos(MyApp.selectedPhotoSort),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
