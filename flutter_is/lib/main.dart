@@ -10,9 +10,50 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:web_browser/web_browser.dart';
 import 'package:flutter/material.dart';
 
+final List<Widget> photoAstro = [
+  Image.asset('images/photography/astro/ianb.arw-30112021-0013.jpg'),
+  Image.asset('images/photography/astro/ianb.arw-30112021-0014.jpg'),
+  Image.asset('images/photography/astro/Stack2.jpg'),
+  Image.asset('images/photography/astro/staroutput.final1.jpg'),
+  Image.asset('images/photography/astro/staroutput.final2.jpg'),
+];
+
+final List<Widget> photoCity = [
+  Image.asset('images/photography/city/ianb.arw-30112021-0006.jpg'),
+  Image.asset('images/photography/city/ianb.arw-30112021-0007.jpg'),
+  Image.asset('images/photography/city/ianb.arw-30112021-0008.jpg'),
+  Image.asset('images/photography/city/ianb.arw-30112021-0009.jpg'),
+];
+
+final List<Widget> photoNature = [
+  Image.asset('images/photography/nature/DSC00020.jpg'),
+  Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'),
+  Image.asset('images/photography/nature/ianb.jpg'),
+];
+
+final List<Widget> photoLandscape = [
+  Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0001.jpg'),
+  Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0002.jpg'),
+  Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0012.jpg'),
+  Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0021.jpg'),
+];
+
+final List<Widget> photoWildlife = [
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0003.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0004.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0005.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0010.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0018.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0019.jpg'),
+  Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'),
+];
+
+final List<Widget> photoMisc = [];
+
 void main() => runApp(MyApp());
 
 List shuffle(List items) {
+  void main() => runApp(MyApp());
   var random = Random();
 
   // Go through all elements.
@@ -220,70 +261,35 @@ class _MyAppState extends State<MyApp> {
   }
 
   List<Widget> _getSelectedPhotos(sp) {
-    // FIXME: Make it so the photos are always loaded on this tab and just sort instead of reloading each time
-    // Add these to multiple lists before the creation the main and then in here append the photos to the main list
     // TODO: Dynamically load the photos from images/photogrpahy instead of using the hardcoded list made with the py file
     List<Widget> photos = [];
     switch (sp) {
       case photoSort.astro:
-        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0013.jpg'));
-        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0014.jpg'));
-        photos.add(Image.asset('images/photography/astro/Stack2.jpg'));
-        photos.add(Image.asset('images/photography/astro/staroutput.final1.jpg'));
-        photos.add(Image.asset('images/photography/astro/staroutput.final2.jpg'));
+        photos = photoAstro;
         break;
       case photoSort.city:
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0006.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0007.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0008.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0009.jpg'));
+        photos = photoCity;
         break;
       case photoSort.nature:
-        photos.add(Image.asset('images/photography/nature/DSC00020.jpg'));
-        photos.add(Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'));
-        photos.add(Image.asset('images/photography/nature/ianb.jpg'));
+        photos = photoNature;
         break;
       case photoSort.landscape:
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0001.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0002.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0012.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0021.jpg'));
+        photos = photoNature;
         break;
       case photoSort.wildlife:
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0003.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0004.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0005.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0010.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0018.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0019.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'));
+        photos = photoWildlife;
         break;
       case photoSort.misc:
+        photos = photoMisc;
         break;
       default:
-        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0013.jpg'));
-        photos.add(Image.asset('images/photography/astro/ianb.arw-30112021-0014.jpg'));
-        photos.add(Image.asset('images/photography/astro/Stack2.jpg'));
-        photos.add(Image.asset('images/photography/astro/staroutput.final1.jpg'));
-        photos.add(Image.asset('images/photography/astro/staroutput.final2.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0006.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0007.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0008.jpg'));
-        photos.add(Image.asset('images/photography/city/ianb.arw-30112021-0009.jpg'));
-        photos.add(Image.asset('images/photography/nature/DSC00020.jpg'));
-        photos.add(Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'));
-        photos.add(Image.asset('images/photography/nature/ianb.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0001.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0002.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0012.jpg'));
-        photos.add(Image.asset('images/photography/sky_landscape/ianb.arw-30112021-0021.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0003.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0004.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0005.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0010.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0018.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0019.jpg'));
-        photos.add(Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'));
+        photos.addAll(photoAstro);
+        photos.addAll(photoCity);
+        photos.addAll(photoLandscape);
+        photos.addAll(photoMisc);
+        photos.addAll(photoNature);
+        photos.addAll(photoWildlife);
+        break;
     }
 
     shuffle(photos);
