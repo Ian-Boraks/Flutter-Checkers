@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:html';
 import 'dart:js' as js;
 import 'dart:math';
 
 import 'checkers/main.dart';
 
-import 'package:flutter_html/flutter_html.dart';
 import 'package:web_browser/web_browser.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +26,6 @@ final List<Widget> photoCity = [
 final List<Widget> photoNature = [
   Image.asset('images/photography/nature/DSC00020.jpg'),
   Image.asset('images/photography/nature/ianb.arw-30112021-0016.jpg'),
-  Image.asset('images/photography/nature/ianb.jpg'),
 ];
 
 final List<Widget> photoLandscape = [
@@ -48,7 +45,9 @@ final List<Widget> photoWildlife = [
   Image.asset('images/photography/wildlife/ianb.arw-30112021-0020.jpg'),
 ];
 
-final List<Widget> photoMisc = [];
+final List<Widget> photoMisc = [
+  Image.asset('images/photography/msc/ianb.arw-30112021-0017.jpg'),
+];
 
 void main() => runApp(MyApp());
 
@@ -73,10 +72,13 @@ enum codeProjects { empty, phaseShift, attractions, museumRunner, portfolio, che
 enum cadProjects { empty, btSpeaker }
 enum photoSort { all, astro, city, nature, landscape, wildlife, misc }
 
+const double defaultPhotoCol = 4;
+
 class MyApp extends StatefulWidget {
   static var selectedCodeProject = codeProjects.empty;
   static var selectedCadProject = cadProjects.empty;
   static var selectedPhotoSort = photoSort.all;
+  static double selectedPhotoCol = defaultPhotoCol;
 
   @override
   State<StatefulWidget> createState() => _MyAppState();
@@ -249,6 +251,8 @@ class _MyAppState extends State<MyApp> {
     _changeSelectedPhotoSort(photoSort.all);
   }
 
+  double _photoSliderValue = defaultPhotoCol;
+
   _changeStateCodeProject(scp) {
     setState(() {
       MyApp.selectedCodeProject = scp;
@@ -275,7 +279,7 @@ class _MyAppState extends State<MyApp> {
         photos = photoNature;
         break;
       case photoSort.landscape:
-        photos = photoNature;
+        photos = photoLandscape;
         break;
       case photoSort.wildlife:
         photos = photoWildlife;
@@ -540,18 +544,42 @@ class _MyAppState extends State<MyApp> {
                       ),
                       Expanded(
                         flex: 8,
-                        child: CustomScrollView(
-                          primary: false,
-                          slivers: <Widget>[
-                            SliverPadding(
-                              padding: const EdgeInsets.all(3.0),
-                              sliver: SliverGrid.count(
-                                mainAxisSpacing: 1, //horizontal space
-                                crossAxisSpacing: 1, //vertical space
-                                crossAxisCount: 3, //number of images for a row
-                                children: _getSelectedPhotos(MyApp.selectedPhotoSort),
-                              ),
+                        child: Column(
+                          children: [
+                            Slider(
+                              value: _photoSliderValue,
+                              min: 1,
+                              max: 7,
+                              divisions: 6,
+                              label: _photoSliderValue.toString(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  _photoSliderValue = value;
+                                });
+                                if (value % 1 == 0) {
+                                  setState(() {
+                                    MyApp.selectedPhotoCol = value.roundToDouble();
+                                  });
+                                }
+                              },
                             ),
+                            Expanded(
+                              child: CustomScrollView(
+                                cacheExtent: double.infinity,
+                                primary: false,
+                                slivers: <Widget>[
+                                  SliverPadding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    sliver: SliverGrid.count(
+                                      mainAxisSpacing: 1, //horizontal space
+                                      crossAxisSpacing: 1, //vertical space
+                                      crossAxisCount: MyApp.selectedPhotoCol.round(), //number of images for a row
+                                      children: _getSelectedPhotos(MyApp.selectedPhotoSort),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
