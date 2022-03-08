@@ -246,6 +246,7 @@ class NewProjectExpanded extends StatelessWidget {
 class _MyAppState extends State<MyApp> {
   void _resetTabs() {
     _changeStateCodeProject(codeProjects.empty);
+    _changeSelectedPhotoSort(photoSort.all);
   }
 
   _changeStateCodeProject(scp) {
