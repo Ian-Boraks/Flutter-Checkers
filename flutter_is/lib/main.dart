@@ -333,6 +333,53 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  List<Widget> _getSelectedPhotosDynCol(sp, colCount) {
+    List<Widget> photos = _getSelectedPhotos(sp);
+    List<Widget> cols = [];
+
+    int photoCount = photos.length;
+    int photosPerCol = photoCount ~/ colCount;
+    int remainder = (photoCount % colCount).toInt();
+    int tempEndPoint = 0;
+
+    if (photoCount > colCount) {
+      for (var i = 0; i < colCount; i++) {
+        int startPoint = tempEndPoint;
+        int endPoint = startPoint + photosPerCol + (i > remainder ? 0 : 1);
+        tempEndPoint = endPoint = endPoint >= photoCount ? photoCount : endPoint;
+
+        cols.add(
+          Expanded(
+            child: ListView(
+              cacheExtent: double.infinity,
+              controller: ScrollController(),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: photos.sublist(startPoint, endPoint),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    } else {
+      for (var j = 0; j < photoCount; j++) {
+        cols.add(
+          Expanded(
+            child: Column(
+              children: [
+                photos[j]
+              ],
+            ),
+          ),
+        );
+      }
+    }
+    return cols;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -564,22 +611,23 @@ class _MyAppState extends State<MyApp> {
                               },
                             ),
                             Expanded(
-                              child: CustomScrollView(
-                                cacheExtent: double.infinity,
-                                primary: false,
-                                slivers: <Widget>[
-                                  SliverPadding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    sliver: SliverGrid.count(
-                                      mainAxisSpacing: 1, //horizontal space
-                                      crossAxisSpacing: 1, //vertical space
-                                      crossAxisCount: MyApp.selectedPhotoCol.round(), //number of images for a row
-                                      children: _getSelectedPhotos(MyApp.selectedPhotoSort),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
+                              // child: CustomScrollView(
+                              //   cacheExtent: double.infinity,
+                              //   primary: false,
+                              //   slivers: <Widget>[
+                              //     SliverPadding(
+                              //       padding: const EdgeInsets.all(3.0),
+                              //       sliver: SliverGrid.count(
+                              //         mainAxisSpacing: 1, //horizontal space
+                              //         crossAxisSpacing: 1, //vertical space
+                              //         crossAxisCount: MyApp.selectedPhotoCol.round(), //number of images for a row
+                              //         children: _getSelectedPhotos(MyApp.selectedPhotoSort),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              child: Row(children: _getSelectedPhotosDynCol(MyApp.selectedPhotoSort, MyApp.selectedPhotoCol.round())),
+                            ),
                           ],
                         ),
                       ),
