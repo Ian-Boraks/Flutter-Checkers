@@ -111,31 +111,16 @@ class _MyLandingState extends State<MyLanding> {
                 children: const [
                   Flexible(
                     child: Center(
-                      // child: Image.asset(''),
-                      child: SizedBox.expand(
-                        child: FittedBox(
-                          child: Icon(
-                            Icons.three_mp,
-                            size: 400,
-                            color: Colors.pink,
-                          ),
-                        ),
-                      ),
-                    ),
-                    flex: 6,
-                    fit: FlexFit.tight,
-                  ),
-                  Flexible(
-                    child: Center(
                       child: Text(
-                        "Hi my name is Ian",
+                        "Hi my name is Ian.\n\nI am a coder, photographer, and CAD designer.",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 32,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    flex: 4,
+                    flex: 1,
                     fit: FlexFit.tight,
                   ),
                 ],
