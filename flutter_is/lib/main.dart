@@ -1,9 +1,21 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+/*
+
+MAY 1st: 
+ ! Have a working landing page that shows me, a brief intro, and my socials
+ ! Landing page should load the first time the app is opened and then unload and be replaced by the main app widget
+ ? Separate each part of the site into different routes
+
+MAY 4th:
+ ! Present final project in a 1 on 1 session showing all of the features and explaining how flutter works
+
+*/
 
 import 'dart:js' as js;
 import 'dart:math';
 
 import 'checkers/main.dart';
+import 'landing.dart';
 
 import 'package:web_browser/web_browser.dart';
 import 'package:flutter/material.dart';
@@ -384,312 +396,316 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: DefaultTabController(
-        length: 3,
-        child: Builder(
-          builder: (context) {
-            final tabController = DefaultTabController.of(context)!;
-            tabController.addListener(() {
-              _resetTabs();
-            });
-            return Scaffold(
-              appBar: AppBar(
-                bottom: TabBar(
-                  labelStyle: TextStyle(
-                    fontSize: 23,
-                  ),
-                  tabs: [
-                    Tab(
-                      icon: Icon(
-                        Icons.code_outlined,
-                        color: Colors.red,
-                      ),
-                      text: "Code",
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.photo_camera_outlined,
-                        color: Colors.blue,
-                      ),
-                      text: "Photography",
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.threed_rotation_outlined,
-                        color: Colors.cyan,
-                      ),
-                      text: "CAD",
-                    ),
-                  ],
-                ),
-                centerTitle: true,
-                title: const Text(
-                  'Ian Borak\'s Electronic Portfolio',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              body: TabBarView(
-                children: [
-                  // CODE
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: const BouncingScrollPhysics(),
-                            children: [
-                              ListItemWidget(
-                                icon: Icons.videogame_asset,
-                                size: 100,
-                                text: "TSA\nMuseum\nRunner",
-                                color: Colors.red,
-                                selected: MyApp.selectedCodeProject == codeProjects.museumRunner,
-                                onPressed: () {
-                                  _changeStateCodeProject(codeProjects.phaseShift);
-                                  Future.delayed(const Duration(milliseconds: 50), () {
-                                    _changeStateCodeProject(codeProjects.museumRunner);
-                                  });
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.map,
-                                color: Colors.blue,
-                                size: 100,
-                                text: "FBLA\nAttractions.cc",
-                                selected: MyApp.selectedCodeProject == codeProjects.attractions,
-                                onPressed: () {
-                                  _changeStateCodeProject(codeProjects.phaseShift);
-                                  Future.delayed(const Duration(milliseconds: 50), () {
-                                    _changeStateCodeProject(codeProjects.attractions);
-                                  });
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.auto_stories_outlined,
-                                color: Colors.cyan,
-                                size: 100,
-                                text: "Portfolio",
-                                onPressed: () {
-                                  _changeStateCodeProject(codeProjects.phaseShift);
-                                  Future.delayed(const Duration(milliseconds: 50), () {
-                                    _changeStateCodeProject(codeProjects.portfolio);
-                                  });
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.grid_view,
-                                color: Colors.purple,
-                                size: 100,
-                                text: "Flutter\nCheckers",
-                                onPressed: () {
-                                  _changeStateCodeProject(codeProjects.phaseShift);
-                                  Future.delayed(const Duration(milliseconds: 50), () {
-                                    _changeStateCodeProject(codeProjects.checkers);
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyLanding(),
+        '/content': (context) => DefaultTabController(
+              length: 3,
+              child: Builder(
+                builder: (context) {
+                  final tabController = DefaultTabController.of(context)!;
+                  tabController.addListener(() {
+                    _resetTabs();
+                  });
+                  return Scaffold(
+                    appBar: AppBar(
+                      bottom: TabBar(
+                        labelStyle: TextStyle(
+                          fontSize: 23,
                         ),
-                      ),
-                      _getSelectedCodeProject(MyApp.selectedCodeProject),
-                    ],
-                  ),
-                  // Photography
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: const BouncingScrollPhysics(),
-                            children: [
-                              ListItemWidget(
-                                icon: Icons.collections,
-                                selected: MyApp.selectedPhotoSort == photoSort.all,
-                                size: 100,
-                                text: "All",
-                                color: Colors.orange,
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.all);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.auto_awesome,
-                                selected: MyApp.selectedPhotoSort == photoSort.astro,
-                                size: 100,
-                                text: "Astro",
-                                color: Colors.red,
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.astro);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.location_city,
-                                selected: MyApp.selectedPhotoSort == photoSort.city,
-                                color: Colors.blue,
-                                size: 100,
-                                text: "City",
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.city);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.park,
-                                selected: MyApp.selectedPhotoSort == photoSort.nature,
-                                color: Colors.cyan,
-                                size: 100,
-                                text: "Nature",
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.nature);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.landscape,
-                                selected: MyApp.selectedPhotoSort == photoSort.landscape,
-                                color: Colors.purple,
-                                size: 100,
-                                text: "Landscape",
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.landscape);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.emoji_nature,
-                                selected: MyApp.selectedPhotoSort == photoSort.wildlife,
-                                color: Colors.green,
-                                size: 100,
-                                text: "Wildlife",
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.wildlife);
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.miscellaneous_services,
-                                selected: MyApp.selectedPhotoSort == photoSort.misc,
-                                color: Colors.grey,
-                                size: 100,
-                                text: "Misc",
-                                onPressed: () {
-                                  _changeSelectedPhotoSort(photoSort.misc);
-                                },
-                              ),
-                            ],
+                        tabs: [
+                          Tab(
+                            icon: Icon(
+                              Icons.code_outlined,
+                              color: Colors.red,
+                            ),
+                            text: "Code",
                           ),
-                        ),
+                          Tab(
+                            icon: Icon(
+                              Icons.photo_camera_outlined,
+                              color: Colors.blue,
+                            ),
+                            text: "Photography",
+                          ),
+                          Tab(
+                            icon: Icon(
+                              Icons.threed_rotation_outlined,
+                              color: Colors.cyan,
+                            ),
+                            text: "CAD",
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        flex: 8,
-                        child: Column(
+                      centerTitle: true,
+                      title: const Text(
+                        'Ian Borak\'s Electronic Portfolio',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        // CODE
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Slider(
-                              value: _photoSliderValue,
-                              min: 1,
-                              max: 7,
-                              divisions: 6,
-                              label: _photoSliderValue.toString(),
-                              onChanged: (double value) {
-                                setState(() {
-                                  _photoSliderValue = value;
-                                });
-                                if (value % 1 == 0) {
-                                  setState(() {
-                                    MyApp.selectedPhotoCol = value.roundToDouble();
-                                  });
-                                }
-                              },
+                            Expanded(
+                              flex: 1,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: [
+                                    ListItemWidget(
+                                      icon: Icons.videogame_asset,
+                                      size: 100,
+                                      text: "TSA\nMuseum\nRunner",
+                                      color: Colors.red,
+                                      selected: MyApp.selectedCodeProject == codeProjects.museumRunner,
+                                      onPressed: () {
+                                        _changeStateCodeProject(codeProjects.phaseShift);
+                                        Future.delayed(const Duration(milliseconds: 50), () {
+                                          _changeStateCodeProject(codeProjects.museumRunner);
+                                        });
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.map,
+                                      color: Colors.blue,
+                                      size: 100,
+                                      text: "FBLA\nAttractions.cc",
+                                      selected: MyApp.selectedCodeProject == codeProjects.attractions,
+                                      onPressed: () {
+                                        _changeStateCodeProject(codeProjects.phaseShift);
+                                        Future.delayed(const Duration(milliseconds: 50), () {
+                                          _changeStateCodeProject(codeProjects.attractions);
+                                        });
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.auto_stories_outlined,
+                                      color: Colors.cyan,
+                                      size: 100,
+                                      text: "Portfolio",
+                                      onPressed: () {
+                                        _changeStateCodeProject(codeProjects.phaseShift);
+                                        Future.delayed(const Duration(milliseconds: 50), () {
+                                          _changeStateCodeProject(codeProjects.portfolio);
+                                        });
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.grid_view,
+                                      color: Colors.purple,
+                                      size: 100,
+                                      text: "Flutter\nCheckers",
+                                      onPressed: () {
+                                        _changeStateCodeProject(codeProjects.phaseShift);
+                                        Future.delayed(const Duration(milliseconds: 50), () {
+                                          _changeStateCodeProject(codeProjects.checkers);
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            _getSelectedCodeProject(MyApp.selectedCodeProject),
+                          ],
+                        ),
+                        // Photography
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: [
+                                    ListItemWidget(
+                                      icon: Icons.collections,
+                                      selected: MyApp.selectedPhotoSort == photoSort.all,
+                                      size: 100,
+                                      text: "All",
+                                      color: Colors.orange,
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.all);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.auto_awesome,
+                                      selected: MyApp.selectedPhotoSort == photoSort.astro,
+                                      size: 100,
+                                      text: "Astro",
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.astro);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.location_city,
+                                      selected: MyApp.selectedPhotoSort == photoSort.city,
+                                      color: Colors.blue,
+                                      size: 100,
+                                      text: "City",
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.city);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.park,
+                                      selected: MyApp.selectedPhotoSort == photoSort.nature,
+                                      color: Colors.cyan,
+                                      size: 100,
+                                      text: "Nature",
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.nature);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.landscape,
+                                      selected: MyApp.selectedPhotoSort == photoSort.landscape,
+                                      color: Colors.purple,
+                                      size: 100,
+                                      text: "Landscape",
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.landscape);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.emoji_nature,
+                                      selected: MyApp.selectedPhotoSort == photoSort.wildlife,
+                                      color: Colors.green,
+                                      size: 100,
+                                      text: "Wildlife",
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.wildlife);
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.miscellaneous_services,
+                                      selected: MyApp.selectedPhotoSort == photoSort.misc,
+                                      color: Colors.grey,
+                                      size: 100,
+                                      text: "Misc",
+                                      onPressed: () {
+                                        _changeSelectedPhotoSort(photoSort.misc);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             Expanded(
-                              // child: CustomScrollView(
-                              //   cacheExtent: double.infinity,
-                              //   primary: false,
-                              //   slivers: <Widget>[
-                              //     SliverPadding(
-                              //       padding: const EdgeInsets.all(3.0),
-                              //       sliver: SliverGrid.count(
-                              //         mainAxisSpacing: 1, //horizontal space
-                              //         crossAxisSpacing: 1, //vertical space
-                              //         crossAxisCount: MyApp.selectedPhotoCol.round(), //number of images for a row
-                              //         children: _getSelectedPhotos(MyApp.selectedPhotoSort),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              child: Row(children: _getSelectedPhotosDynCol(MyApp.selectedPhotoSort, MyApp.selectedPhotoCol.round())),
+                              flex: 8,
+                              child: Column(
+                                children: [
+                                  Slider(
+                                    value: _photoSliderValue,
+                                    min: 1,
+                                    max: 7,
+                                    divisions: 6,
+                                    label: _photoSliderValue.toString(),
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        _photoSliderValue = value;
+                                      });
+                                      if (value % 1 == 0) {
+                                        setState(() {
+                                          MyApp.selectedPhotoCol = value.roundToDouble();
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  Expanded(
+                                    // child: CustomScrollView(
+                                    //   cacheExtent: double.infinity,
+                                    //   primary: false,
+                                    //   slivers: <Widget>[
+                                    //     SliverPadding(
+                                    //       padding: const EdgeInsets.all(3.0),
+                                    //       sliver: SliverGrid.count(
+                                    //         mainAxisSpacing: 1, //horizontal space
+                                    //         crossAxisSpacing: 1, //vertical space
+                                    //         crossAxisCount: MyApp.selectedPhotoCol.round(), //number of images for a row
+                                    //         children: _getSelectedPhotos(MyApp.selectedPhotoSort),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    child: Row(children: _getSelectedPhotosDynCol(MyApp.selectedPhotoSort, MyApp.selectedPhotoCol.round())),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  // CAD
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: const BouncingScrollPhysics(),
-                            children: [
-                              ListItemWidget(
-                                icon: Icons.code_outlined,
-                                size: 100,
-                                text: "Code",
-                                color: Colors.red,
-                                onPressed: () {
-                                  print("Code");
-                                },
+                        // CAD
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: [
+                                    ListItemWidget(
+                                      icon: Icons.code_outlined,
+                                      size: 100,
+                                      text: "Code",
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        print("Code");
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.photo_camera_outlined,
+                                      color: Colors.blue,
+                                      size: 100,
+                                      text: "Photo",
+                                      onPressed: () {
+                                        print("Photo");
+                                      },
+                                    ),
+                                    ListItemWidget(
+                                      icon: Icons.threed_rotation_outlined,
+                                      color: Colors.cyan,
+                                      size: 100,
+                                      text: "CAD",
+                                      onPressed: () {
+                                        print("CAD");
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                              ListItemWidget(
-                                icon: Icons.photo_camera_outlined,
-                                color: Colors.blue,
-                                size: 100,
-                                text: "Photo",
-                                onPressed: () {
-                                  print("Photo");
-                                },
-                              ),
-                              ListItemWidget(
-                                icon: Icons.threed_rotation_outlined,
-                                color: Colors.cyan,
-                                size: 100,
-                                text: "CAD",
-                                onPressed: () {
-                                  print("CAD");
-                                },
-                              ),
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Container(color: Color(0xFFF470DB)), // Bruh why is hex with the A value in the front :(
+                            ),
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Container(color: Color(0xFFF470DB)), // Bruh why is hex with the A value in the front :(
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
+            ),
+      },
     );
   }
 }
