@@ -21,49 +21,58 @@ class _MyLandingState extends State<MyLanding> {
                     Flexible(
                       child: Center(
                         child: Container(
-                          child: IconButton(
-                            icon: Icon(Icons.linked_camera_outlined),
+                          padding: EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: Image.asset('images/icons/linkedin.png'),
                             onPressed: () => {},
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
                           ),
                         ),
                       ),
-                      flex: 25,
+                      flex: 3,
                       fit: FlexFit.tight,
                     ),
                     Flexible(
                       child: Center(
                         child: Container(
-                          child: IconButton(
-                            icon: Icon(Icons.code_outlined),
+                          padding: EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: Image.asset('images/icons/instagram.png'),
                             onPressed: () => {},
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
                           ),
                         ),
                       ),
-                      flex: 25,
+                      flex: 3,
                       fit: FlexFit.tight,
                     ),
                     Flexible(
                       child: Center(
                         child: Container(
-                          child: IconButton(
-                            icon: Icon(Icons.code_outlined),
+                          padding: EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: Image.asset('images/icons/github.png'),
                             onPressed: () => {},
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
                           ),
                         ),
                       ),
-                      flex: 25,
-                      fit: FlexFit.tight,
-                    ),
-                    Flexible(
-                      child: Center(
-                        child: Container(
-                          child: IconButton(
-                            icon: Icon(Icons.code_outlined),
-                            onPressed: () => {},
-                          ),
-                        ),
-                      ),
-                      flex: 25,
+                      flex: 3,
                       fit: FlexFit.tight,
                     ),
                   ],
@@ -73,8 +82,21 @@ class _MyLandingState extends State<MyLanding> {
               fit: FlexFit.tight,
             ),
             Flexible(
-              child: Container(
-                color: Colors.red,
+              child: Column(
+                children: [
+                  Flexible(
+                    child: Center(
+                      child: Image.asset('images/icons/surprised.png'),
+                    ),
+                    flex: 6,
+                  ),
+                  const Flexible(
+                    child: Center(
+                      child: Text("Hi my name is Ian"),
+                    ),
+                    flex: 4,
+                  ),
+                ],
               ),
               flex: 8,
             ),
