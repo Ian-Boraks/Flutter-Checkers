@@ -99,7 +99,6 @@ class _MyLandingState extends State<MyLanding> {
                         ),
                       ),
                       flex: 3,
-                      fit: FlexFit.tight,
                     ),
                   ],
                 ),
@@ -109,30 +108,133 @@ class _MyLandingState extends State<MyLanding> {
             ),
             Flexible(
               child: Column(
-                children: [
+                children: const [
                   Flexible(
                     child: Center(
                       // child: Image.asset(''),
-                      child: Icon(
-                        Icons.three_mp,
-                        size: 400,
-                        color: Colors.pink,
+                      child: SizedBox.expand(
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.three_mp,
+                            size: 400,
+                            color: Colors.pink,
+                          ),
+                        ),
                       ),
                     ),
                     flex: 6,
                     fit: FlexFit.tight,
                   ),
-                  const Flexible(
+                  Flexible(
                     child: Center(
-                      child: Text("Hi my name is Ian"),
+                      child: Text(
+                        "Hi my name is Ian",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                        ),
+                      ),
                     ),
                     flex: 4,
                     fit: FlexFit.tight,
                   ),
                 ],
               ),
-              flex: 8,
-            )
+              flex: 6,
+            ),
+            Flexible(
+              child: Center(
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: const SizedBox.expand(
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.code_outlined,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => {
+                              Navigator.pushNamed(context, '/codegallery')
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ),
+                      flex: 3,
+                      fit: FlexFit.tight,
+                    ),
+                    Flexible(
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: const SizedBox.expand(
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => {
+                              Navigator.pushNamed(context, '/photogallery')
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ),
+                      flex: 3,
+                      fit: FlexFit.tight,
+                    ),
+                    Flexible(
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: ElevatedButton(
+                            child: const SizedBox.expand(
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.threed_rotation_outlined,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => {
+                              Navigator.pushNamed(context, '/cadgallery')
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ),
+                      flex: 3,
+                      fit: FlexFit.tight,
+                    ),
+                  ],
+                ),
+              ),
+              flex: 2,
+            ),
           ],
         ),
         decoration: const BoxDecoration(
