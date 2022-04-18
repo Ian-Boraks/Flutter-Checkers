@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:js' as js;
 
 class MyLanding extends StatefulWidget {
   const MyLanding({Key? key}) : super(key: key);
@@ -12,7 +13,8 @@ class _MyLandingState extends State<MyLanding> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Row(
+          body: Container(
+        child: Row(
           children: [
             Flexible(
               child: Center(
@@ -21,10 +23,18 @@ class _MyLandingState extends State<MyLanding> {
                     Flexible(
                       child: Center(
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: ElevatedButton(
-                            child: Image.asset('images/icons/linkedin.png'),
-                            onPressed: () => {},
+                            child: Image.asset(
+                              'images/icons/linkedin.png',
+                              color: Colors.white,
+                              isAntiAlias: true,
+                            ),
+                            onPressed: () => {
+                              js.context.callMethod('open', [
+                                'https://www.linkedin.com/in/ian-boraks/'
+                              ])
+                            },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -40,10 +50,18 @@ class _MyLandingState extends State<MyLanding> {
                     Flexible(
                       child: Center(
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: ElevatedButton(
-                            child: Image.asset('images/icons/instagram.png'),
-                            onPressed: () => {},
+                            child: Image.asset(
+                              'images/icons/instagram.png',
+                              color: Colors.white,
+                              isAntiAlias: true,
+                            ),
+                            onPressed: () => {
+                              js.context.callMethod('open', [
+                                'https://www.instagram.com/ianb.arw/'
+                              ])
+                            },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -59,10 +77,18 @@ class _MyLandingState extends State<MyLanding> {
                     Flexible(
                       child: Center(
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: ElevatedButton(
-                            child: Image.asset('images/icons/github.png'),
-                            onPressed: () => {},
+                            child: Image.asset(
+                              'images/icons/github.png',
+                              color: Colors.white,
+                              isAntiAlias: true,
+                            ),
+                            onPressed: () => {
+                              js.context.callMethod('open', [
+                                'https://github.com/Ian-Boraks'
+                              ])
+                            },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               foregroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -86,23 +112,36 @@ class _MyLandingState extends State<MyLanding> {
                 children: [
                   Flexible(
                     child: Center(
-                      child: Image.asset('images/icons/surprised.png'),
+                      // child: Image.asset(''),
+                      child: Icon(
+                        Icons.three_mp,
+                        size: 400,
+                        color: Colors.pink,
+                      ),
                     ),
                     flex: 6,
+                    fit: FlexFit.tight,
                   ),
                   const Flexible(
                     child: Center(
                       child: Text("Hi my name is Ian"),
                     ),
                     flex: 4,
+                    fit: FlexFit.tight,
                   ),
                 ],
               ),
               flex: 8,
-            ),
+            )
           ],
         ),
-      ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('images/icons/tree.png'),
+          ),
+        ),
+      )),
     );
   }
 }
